@@ -39,7 +39,7 @@ export default defineConfig({
   resolve: {
     alias: {
       components: `${path.resolve(__dirname, "./src/components/")}`,
-      public: `${path.resolve(__dirname, "./public/")}`,
+
       pages: path.resolve(__dirname, "./src/pages"),
       assets: path.resolve(__dirname, "./src/assets"),
       examples: path.resolve(__dirname, "./src/examples"),

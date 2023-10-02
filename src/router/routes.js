@@ -13,7 +13,9 @@ import EditCategory from "pages/products/category/category-edit";
 import CreateProduct from "pages/products/product/product-create";
 import CreateOfert from "pages/products/ofert/ofert-create";
 import EditOfert from "pages/products/ofert/ofert-edit";
-import EditProduct from "pages/products/product/product-edit";
+import ListSuppliers from "pages/suppliers/list-suppliers";
+import CreateNewSupplier from "pages/suppliers/create-suppliers";
+import EditSupplier from "pages/suppliers/edit-suppliers";
 
 const routes = [
   //dashboard
@@ -135,6 +137,33 @@ const routes = [
     component: (
       <RequireAuth>
         <EditOfert />
+      </RequireAuth>
+    ),
+  },
+
+  /* Proveedores */
+
+  {
+    route: "/productos/proveedores/lista",
+    component: (
+      <RequireAuth>
+        <ListSuppliers />
+      </RequireAuth>
+    ),
+  },
+  {
+    route: "/productos/proveedores/nuevo",
+    component: (
+      <RequireAuth>
+        <CreateNewSupplier />
+      </RequireAuth>
+    ),
+  },
+  {
+    route: "/productos/proveedores/editar/:id",
+    component: (
+      <RequireAuth>
+        <EditSupplier />
       </RequireAuth>
     ),
   },
