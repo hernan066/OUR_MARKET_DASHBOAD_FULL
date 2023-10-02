@@ -16,6 +16,9 @@ import EditOfert from "pages/products/ofert/ofert-edit";
 import ListSuppliers from "pages/suppliers/list-suppliers";
 import CreateNewSupplier from "pages/suppliers/create-suppliers";
 import EditSupplier from "pages/suppliers/edit-suppliers";
+import StockMain from "pages/productsLots";
+import CreateProductsLots from "pages/productsLots/create-productsLots";
+import EditProductsLots from "pages/productsLots/edit-productsLots";
 
 const routes = [
   //dashboard
@@ -164,6 +167,33 @@ const routes = [
     component: (
       <RequireAuth>
         <EditSupplier />
+      </RequireAuth>
+    ),
+  },
+
+  /* Stock */
+
+  {
+    route: "/productos/stock/lista",
+    component: (
+      <RequireAuth>
+        <StockMain />
+      </RequireAuth>
+    ),
+  },
+  {
+    route: "/productos/stock/nuevo",
+    component: (
+      <RequireAuth>
+        <CreateProductsLots />
+      </RequireAuth>
+    ),
+  },
+  {
+    route: "/productos/stock/editar/:id",
+    component: (
+      <RequireAuth>
+        <EditProductsLots />
       </RequireAuth>
     ),
   },
