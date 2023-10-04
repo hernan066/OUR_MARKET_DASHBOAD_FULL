@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable no-unused-vars */
 /* eslint-disable react/prop-types */
 import { useEffect } from "react";
@@ -26,7 +27,13 @@ function Sidenav({ color, brand, brandName, routes, ...rest }) {
   const dispatch1 = useDispatch();
   const navigate = useNavigate();
   const [controller, dispatch] = useMaterialUIController();
-  const { miniSidenav, transparentSidenav, whiteSidenav, darkMode, sidenavColor } = controller;
+  const {
+    miniSidenav,
+    transparentSidenav,
+    whiteSidenav,
+    darkMode,
+    sidenavColor,
+  } = controller;
   const location = useLocation();
 
   let textColor = "white";
@@ -56,8 +63,14 @@ function Sidenav({ color, brand, brandName, routes, ...rest }) {
     // A function that sets the mini state of the sidenav.
     function handleMiniSidenav() {
       setMiniSidenav(dispatch, window.innerWidth < 1200);
-      setTransparentSidenav(dispatch, window.innerWidth < 1200 ? false : transparentSidenav);
-      setWhiteSidenav(dispatch, window.innerWidth < 1200 ? false : whiteSidenav);
+      setTransparentSidenav(
+        dispatch,
+        window.innerWidth < 1200 ? false : transparentSidenav
+      );
+      setWhiteSidenav(
+        dispatch,
+        window.innerWidth < 1200 ? false : whiteSidenav
+      );
     }
 
     /** 
@@ -93,12 +106,19 @@ function Sidenav({ color, brand, brandName, routes, ...rest }) {
           </MDTypography>
         </MDBox>
         <MDBox component={NavLink} to="/" display="flex" alignItems="center">
-          {brand && <MDBox component="img" src={brand} alt="Brand" width="2rem" />}
+          {brand && (
+            <MDBox component="img" src={brand} alt="Brand" width="2rem" />
+          )}
           <MDBox
             width={!brandName && "100%"}
             sx={(theme) => sidenavLogoLabel(theme, { miniSidenav })}
           >
-            <MDTypography component="h6" variant="button" fontWeight="medium" color={textColor}>
+            <MDTypography
+              component="h6"
+              variant="button"
+              fontWeight="medium"
+              color={textColor}
+            >
               Our Market
             </MDTypography>
           </MDBox>
@@ -114,7 +134,7 @@ function Sidenav({ color, brand, brandName, routes, ...rest }) {
       {menuList.map((menu) => (
         <SidenavCustom key={menu.key} menu={menu} />
       ))}
-      {/*  <List>{renderRoutes}</List> */}
+
       <MDBox p={2} mt="auto">
         <MDButton
           component="button"
@@ -138,7 +158,15 @@ Sidenav.defaultProps = {
 
 // Typechecking props for the Sidenav
 Sidenav.propTypes = {
-  color: PropTypes.oneOf(["primary", "secondary", "info", "success", "warning", "error", "dark"]),
+  color: PropTypes.oneOf([
+    "primary",
+    "secondary",
+    "info",
+    "success",
+    "warning",
+    "error",
+    "dark",
+  ]),
   brand: PropTypes.string,
   brandName: PropTypes.string.isRequired,
   // routes: PropTypes.arrayOf(PropTypes.object).isRequired,

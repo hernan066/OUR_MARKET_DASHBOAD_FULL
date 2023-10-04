@@ -19,6 +19,15 @@ import EditSupplier from "pages/suppliers/edit-suppliers";
 import StockMain from "pages/productsLots";
 import CreateProductsLots from "pages/productsLots/create-productsLots";
 import EditProductsLots from "pages/productsLots/edit-productsLots";
+import ListClients from "pages/clients/list-clients";
+import CreateSimpleClient from "pages/clients/create-simple-client";
+import EditClient from "pages/clients/edit-clients";
+import DetailsClients from "pages/clients/details-clients";
+import DetailClientProduct from "pages/clients/details-clients-products";
+import ListClientAddress from "pages/clientsAddress/list-clientAddress";
+import CreateNewClientAddress from "pages/clientsAddress/create-clientAddress";
+import EditClientAddress from "pages/clientsAddress/edit-clientAddress";
+import LocationsPage from "pages/locations";
 
 const routes = [
   //dashboard
@@ -194,6 +203,83 @@ const routes = [
     component: (
       <RequireAuth>
         <EditProductsLots />
+      </RequireAuth>
+    ),
+  },
+
+  /* Clientes */
+
+  {
+    route: "/clientes/lista",
+    component: (
+      <RequireAuth>
+        <ListClients />
+      </RequireAuth>
+    ),
+  },
+  {
+    route: "/clientes/nuevo",
+    component: (
+      <RequireAuth>
+        <CreateSimpleClient />
+      </RequireAuth>
+    ),
+  },
+
+  {
+    route: "/clientes/editar/:id",
+    component: (
+      <RequireAuth>
+        <EditClient />
+      </RequireAuth>
+    ),
+  },
+  {
+    route: "/clientes/detalle/:id",
+    component: (
+      <RequireAuth>
+        <DetailsClients />
+      </RequireAuth>
+    ),
+  },
+  {
+    route: "/clientes/detalle/producto/:id",
+    component: (
+      <RequireAuth>
+        <DetailClientProduct />
+      </RequireAuth>
+    ),
+  },
+  /* Direcciones clientes */
+  {
+    route: "/clientes/direcciones/lista",
+    component: (
+      <RequireAuth>
+        <ListClientAddress />
+      </RequireAuth>
+    ),
+  },
+  {
+    route: "/clientes/direcciones/nuevo",
+    component: (
+      <RequireAuth>
+        <CreateNewClientAddress />
+      </RequireAuth>
+    ),
+  },
+  {
+    route: "/clientes/direcciones/editar/:id",
+    component: (
+      <RequireAuth>
+        <EditClientAddress />
+      </RequireAuth>
+    ),
+  },
+  {
+    route: "/clientes/localizacion",
+    component: (
+      <RequireAuth>
+        <LocationsPage />
       </RequireAuth>
     ),
   },

@@ -34,7 +34,7 @@ function DashboardTotals({
 
   const totalClients = clients.length;
 
-  const { totalCash, totalDebt, totalSales, totalTransfer } = orders[0];
+  // const { totalCash, totalDebt, totalSales, totalTransfer } = orders[0];
 
   useEffect(() => {
     setUpdateDate(dateToLocalDate(new Date()));
@@ -65,7 +65,7 @@ function DashboardTotals({
             <ComplexStatisticsCard
               icon="leaderboard"
               title="Ventas"
-              count={formatPrice(totalSales)}
+              count={formatPrice(orders[0]?.totalSales || 0)}
               percentage={{
                 color: "success",
                 amount: "",
@@ -80,7 +80,11 @@ function DashboardTotals({
               color="success"
               icon="file_download_done_icon"
               title="Pagos clientes"
-              count={formatPrice(totalCash + totalTransfer)}
+              count={formatPrice(
+                orders[0]?.totalCash && orders[0]?.totalTransfer
+                  ? orders[0].totalCash + orders[0].totalTransfer
+                  : 0
+              )}
               percentage={{
                 color: "success",
                 amount: "",
@@ -95,7 +99,7 @@ function DashboardTotals({
               color="primary"
               icon="cancel_presentation_icon"
               title="Deudas clientes"
-              count={formatPrice(totalDebt)}
+              count={formatPrice(orders[0]?.totalDebt || 0)}
               percentage={{
                 color: "success",
                 amount: "",

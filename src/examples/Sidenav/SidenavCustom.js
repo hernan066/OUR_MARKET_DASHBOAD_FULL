@@ -20,7 +20,13 @@ import { NavLink, useLocation } from "react-router-dom";
 
 function SidenavCustom({ menu }) {
   const [controller] = useMaterialUIController();
-  const { miniSidenav, transparentSidenav, whiteSidenav, darkMode, sidenavColor } = controller;
+  const {
+    miniSidenav,
+    transparentSidenav,
+    whiteSidenav,
+    darkMode,
+    sidenavColor,
+  } = controller;
   const location = useLocation();
   const collapseName = location.pathname.split("/").splice(1);
 
@@ -46,10 +52,17 @@ function SidenavCustom({ menu }) {
         >
           <ListItemIcon
             sx={(theme) =>
-              collapseIconBox(theme, { transparentSidenav, whiteSidenav, darkMode, active: true })
+              collapseIconBox(theme, {
+                transparentSidenav,
+                whiteSidenav,
+                darkMode,
+                active: true,
+              })
             }
           >
-            <Icon sx={(theme) => collapseIcon(theme, { active: true })}>{menu.icon}</Icon>
+            <Icon sx={(theme) => collapseIcon(theme, { active: true })}>
+              {menu.icon}
+            </Icon>
           </ListItemIcon>
           <ListItemText
             primary={menu.name}
@@ -71,7 +84,6 @@ function SidenavCustom({ menu }) {
             <NavLink to={sub.url} key={sub.url}>
               <ListItem>
                 <MDBox
-                  ml={3}
                   sx={(theme) =>
                     collapseItemSub(theme, {
                       active: location.pathname === sub.url,
@@ -92,7 +104,9 @@ function SidenavCustom({ menu }) {
                       })
                     }
                   >
-                    <Icon sx={(theme) => collapseIcon(theme, { active: true })}>{sub.icon}</Icon>
+                    <Icon sx={(theme) => collapseIcon(theme, { active: true })}>
+                      {sub.icon}
+                    </Icon>
                   </ListItemIcon>
                   <ListItemText
                     primary={sub.name}

@@ -69,7 +69,7 @@ function TableListTotalStock({ actualStock: stock }) {
     {
       field: "stock1",
       headerName: "Cant. Actual %",
-      flex: 0.7,
+      flex: 0.9,
       headerClassName: "super-app-theme--header",
       renderCell: ({ row: { actualStock, quantityBuy } }) => (
         <div
@@ -84,9 +84,12 @@ function TableListTotalStock({ actualStock: stock }) {
             alignItems: "center",
             border: "1px solid #49a3f1",
             backgroundColor: "#eee",
+            marginRight: "40px",
           }}
         >
-          <p style={{ zIndex: "2" }}>{Math.trunc((actualStock * 100) / quantityBuy)}%</p>
+          <p style={{ zIndex: "2" }}>
+            {Math.trunc((actualStock * 100) / quantityBuy)}%
+          </p>
           <span
             style={{
               position: "absolute",

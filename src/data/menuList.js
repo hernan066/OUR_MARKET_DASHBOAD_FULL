@@ -1,4 +1,3 @@
-/* eslint-disable import/prefer-default-export */
 export const menuList = [
   {
     name: "Dashboard",
@@ -61,6 +60,11 @@ export const menuList = [
     icon: "perm_contact_calendar_icon",
     key: "clientes",
     subRoutes: [
+      {
+        name: "Nuevo cliente",
+        icon: "person_add_alt1_icon",
+        url: "/clientes/nuevo",
+      },
       {
         name: "Lista clientes",
         icon: "format_list_bulleted_icon",

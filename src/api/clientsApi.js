@@ -37,6 +37,15 @@ export const clientApi = apiSlice.injectEndpoints({
       invalidatesTags: ["clients"],
       extraOptions: { maxRetries: 0 },
     }),
+    postClientSimple: builder.mutation({
+      query: (items) => ({
+        url: "/clients/simpleClient",
+        method: "post",
+        body: items,
+      }),
+      invalidatesTags: ["clients"],
+      extraOptions: { maxRetries: 0 },
+    }),
 
     putClient: builder.mutation({
       query: ({ id, ...items }) => ({
@@ -56,6 +65,14 @@ export const clientApi = apiSlice.injectEndpoints({
       invalidatesTags: ["clients"],
       extraOptions: { maxRetries: 0 },
     }),
+    deleteClientSimple: builder.mutation({
+      query: (id) => ({
+        url: `/clients/simpleClient/${id}`,
+        method: "delete",
+      }),
+      invalidatesTags: ["clients"],
+      extraOptions: { maxRetries: 0 },
+    }),
   }),
 });
 
@@ -64,6 +81,8 @@ export const {
   useGetClientQuery,
   useGetAddressesClientQuery,
   usePostClientMutation,
+  usePostClientSimpleMutation,
   usePutClientMutation,
   useDeleteClientMutation,
+  useDeleteClientSimpleMutation,
 } = clientApi;
