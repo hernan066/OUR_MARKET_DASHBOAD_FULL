@@ -1,8 +1,4 @@
-/* eslint-disable no-unreachable-loop */
-/* eslint-disable array-callback-return */
-/* eslint-disable no-plusplus */
-/* eslint-disable consistent-return */
-/* eslint-disable no-unused-vars */
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable react/prop-types */
 import {
   Chart as ChartJS,
@@ -24,7 +20,15 @@ import MDTypography from "components/MDTypography";
 import { dateToLocalDate } from "utils/dateFormat";
 import { arrLastXdays } from "utils/arrLastXdays";
 
-ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
+ChartJS.register(
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  Title,
+  Tooltip,
+  Legend
+);
 
 const options = {
   responsive: true,
@@ -145,16 +149,26 @@ function ClientChart1({ dataClientBuyByDay }) {
           <MDTypography variant="h6" textTransform="capitalize">
             Gráfico de compras
           </MDTypography>
-          <MDTypography component="div" variant="button" color="text" fontWeight="light">
+          <MDTypography
+            component="div"
+            variant="button"
+            color="text"
+            fontWeight="light"
+          >
             Total de los últimos 30 días.
           </MDTypography>
           <Divider />
           <MDBox display="flex" alignItems="center">
-            <MDTypography variant="button" color="text" lineHeight={1} sx={{ mt: 0.15, mr: 0.5 }}>
+            <MDTypography
+              variant="button"
+              color="text"
+              lineHeight={1}
+              sx={{ mt: 0.15, mr: 0.5 }}
+            >
               <Icon>schedule</Icon>
             </MDTypography>
             <MDTypography variant="button" color="text" fontWeight="light">
-              Last update {dateToLocalDate(new Date())}
+              Actualizado {dateToLocalDate(new Date())}
             </MDTypography>
           </MDBox>
         </MDBox>

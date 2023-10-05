@@ -20,7 +20,14 @@ import MDBox from "components/MDBox";
 import MDTypography from "components/MDTypography";
 import { dateToLocalDate } from "utils/dateFormat";
 
-ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
+ChartJS.register(
+  CategoryScale,
+  LinearScale,
+  BarElement,
+  Title,
+  Tooltip,
+  Legend
+);
 
 export const options = {
   responsive: true,
@@ -185,16 +192,26 @@ function ProductCharBar1({ reports }) {
           <MDTypography variant="h6" textTransform="capitalize">
             Totales mensuales
           </MDTypography>
-          <MDTypography component="div" variant="button" color="text" fontWeight="light">
+          <MDTypography
+            component="div"
+            variant="button"
+            color="text"
+            fontWeight="light"
+          >
             Total desde el 21/03/2023
           </MDTypography>
           <Divider />
           <MDBox display="flex" alignItems="center">
-            <MDTypography variant="button" color="text" lineHeight={1} sx={{ mt: 0.15, mr: 0.5 }}>
+            <MDTypography
+              variant="button"
+              color="text"
+              lineHeight={1}
+              sx={{ mt: 0.15, mr: 0.5 }}
+            >
               <Icon>schedule</Icon>
             </MDTypography>
             <MDTypography variant="button" color="text" fontWeight="light">
-              Last update {dateToLocalDate(new Date())}
+              Actualizado {dateToLocalDate(new Date())}
             </MDTypography>
           </MDBox>
         </MDBox>

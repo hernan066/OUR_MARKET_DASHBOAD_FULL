@@ -15,6 +15,7 @@ import { useGetClientOrderQuery } from "api/orderApi";
 import {
   useGetReportTotalClientBuyIndividualQuery,
   useGetReportTotalClientBuyIndividualByDayQuery,
+  useGetTotalOrdersByMonthQuery,
 } from "api/reportApi";
 import { useGetAllRecommendationByClientQuery } from "api/recommnedationApi";
 import ResumeDataClient from "./ResumeDataClient";
@@ -23,57 +24,7 @@ import EditClient from "./editClient";
 import EditClientAddress from "./editAddress";
 import HistoryPoints from "./historyPoints";
 import { useLoadScript } from "@react-google-maps/api";
-
-const getListProducts = (orders) => {
-  const listOfProducts = orders.map((product) => product.orderItems);
-
-  const list = [];
-  for (let i = 0; i < listOfProducts.length; i++) {
-    const element = listOfProducts[i];
-    for (let x = 0; x < element.length; x++) {
-      list.push(element[x]);
-    }
-  }
-
-  return list;
-};
-
-const repeatSum = (arr) => {
-  const arrProductsNonDupli = [];
-  const arrProductsIdCounted = [];
-  arr.forEach((product, indxA, arrProducts) => {
-    // validar si el product ya fue contado en la busqueda de duplicados
-    const isCountryCounted = arrProductsIdCounted.includes(product.productId);
-    // Si no ha sido contado
-    if (!isCountryCounted) {
-      arrProductsIdCounted.push(product.productId);
-
-      // Buscar cuantas coincidencias existen del product en el array
-      const countriesToCount = arrProducts.filter(
-        (ele) => ele.productId === product.productId
-      );
-
-      const country =
-        countriesToCount.length > 1
-          ? {
-              ...product,
-              totalQuantity: countriesToCount.reduce(
-                (acc, cur) => acc + cur.totalQuantity,
-                0
-              ),
-              totalPrice: countriesToCount.reduce(
-                (acc, cur) => acc + cur.totalPrice,
-                0
-              ),
-            }
-          : product;
-
-      arrProductsNonDupli.push(country);
-    }
-  });
-
-  return arrProductsNonDupli;
-};
+import { getListProducts, repeatSum } from "utils/getListProductsToOrders";
 
 function DetailsClients() {
   const { id } = useParams();
@@ -107,6 +58,11 @@ function DetailsClients() {
     isLoading: l5,
     error: e5,
   } = useGetAllRecommendationByClientQuery(id);
+  const {
+    data: totalBuyOrderByMonth,
+    isLoading: l6,
+    error: e6,
+  } = useGetTotalOrdersByMonthQuery(id);
 
   const [listProducts, setListProducts] = useState(null);
   const [listTopProducts, setListTopProducts] = useState(null);
@@ -169,13 +125,13 @@ function DetailsClients() {
               </Tabs>
             </Box>
             {page === 0 && (
-              <Card
+              <Box
                 sx={{
                   mx: 2.5,
                 }}
               >
-                {(l1 || l2 || l3 || l4 || l5) && <Loading />}
-                {(e1 || e2 || e3 || e4 || e5) && (
+                {(l1 || l2 || l3 || l4 || l5 || l6 || !isLoaded) && <Loading />}
+                {(e1 || e2 || e3 || e4 || e5 || e6) && (
                   <Alert severity="error">ha ocurrido un error</Alert>
                 )}
                 {dataClient &&
@@ -183,20 +139,22 @@ function DetailsClients() {
                   listTopProducts &&
                   dataClientBuy &&
                   dataClientBuyByDay &&
+                  totalBuyOrderByMonth &&
                   recommendationData && (
-                    <Box m="20px">
+                    <Box>
                       <ResumeDataClient
                         client={dataClient.data.client}
                         listOrders={dataOrders.data.orders}
                         listTopProducts={listTopProducts}
                         clientBuy={dataClientBuy.data?.report[0]}
                         dataClientBuyByDay={dataClientBuyByDay.data.report}
+                        totalBuyOrderByMonth={totalBuyOrderByMonth.data.report}
                         recommendation={recommendationData.data.recommendation}
                         orders={dataOrders}
                       />
                     </Box>
                   )}
-              </Card>
+              </Box>
             )}
             {page === 1 && (
               <Card

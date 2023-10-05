@@ -21,7 +21,7 @@ export const userApi = apiSlice.injectEndpoints({
       providesTags: ["reports"],
     }),
     getTotalOrdersByMonth: builder.query({
-      query: () => "/reports/ordersByMonth",
+      query: (client) => `/reports/ordersByMonth?client=${client}`,
       // keepUnusedDataFor: 3,
       extraOptions: { maxRetries: 5 },
       providesTags: ["reports"],
@@ -71,7 +71,8 @@ export const userApi = apiSlice.injectEndpoints({
       providesTags: ["reports"],
     }),
     getTotalIndividualProduct: builder.query({
-      query: ({ id, client = "" }) => `/reports/totalIndividualProduct/${id}?client=${client}`,
+      query: ({ id, client = "" }) =>
+        `/reports/totalIndividualProduct/${id}?client=${client}`,
 
       // keepUnusedDataFor: 3,
       extraOptions: { maxRetries: 5 },
@@ -125,7 +126,8 @@ export const userApi = apiSlice.injectEndpoints({
 
     // category
     getCategoryReport: builder.query({
-      query: (id) => `/reports/category/${id}?stock=1&totalSell=1&totalBuy=1&totalSellLocal=1`,
+      query: (id) =>
+        `/reports/category/${id}?stock=1&totalSell=1&totalBuy=1&totalSellLocal=1`,
 
       // keepUnusedDataFor: 3,
       extraOptions: { maxRetries: 5 },

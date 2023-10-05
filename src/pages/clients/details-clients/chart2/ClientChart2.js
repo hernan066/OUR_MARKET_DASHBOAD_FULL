@@ -1,32 +1,35 @@
-/* eslint-disable no-unreachable-loop */
-/* eslint-disable array-callback-return */
-/* eslint-disable no-plusplus */
-/* eslint-disable consistent-return */
-/* eslint-disable no-unused-vars */
+/* eslint-disable react-hooks/exhaustive-deps */
+/* eslint-disable no-prototype-builtins */
 /* eslint-disable react/prop-types */
 import {
   Chart as ChartJS,
   CategoryScale,
   LinearScale,
-  PointElement,
-  LineElement,
+  BarElement,
   Title,
   Tooltip,
   Legend,
 } from "chart.js";
 import { useMemo } from "react";
-import { Line } from "react-chartjs-2";
+import { Bar } from "react-chartjs-2";
 import Card from "@mui/material/Card";
 import Divider from "@mui/material/Divider";
 import Icon from "@mui/material/Icon";
 import MDBox from "components/MDBox";
 import MDTypography from "components/MDTypography";
 import { dateToLocalDate } from "utils/dateFormat";
-import { arrLastXdays } from "utils/arrLastXdays";
+import colors from "assets/theme/base/colors";
 
-ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
+ChartJS.register(
+  CategoryScale,
+  LinearScale,
+  BarElement,
+  Title,
+  Tooltip,
+  Legend
+);
 
-const options = {
+export const options = {
   responsive: true,
   plugins: {
     legend: {
@@ -90,34 +93,78 @@ const options = {
   },
 };
 
-function ClientChart2({ dataClientBuyByDay }) {
-  const labels = arrLastXdays(30);
-
-  const finalData = labels.map((day) => {
-    for (let i = 0; i < dataClientBuyByDay.length; i++) {
-      if (day === dataClientBuyByDay[i].date) {
-        return {
-          ...dataClientBuyByDay[i],
-        };
-      }
-    }
-    return {
-      ...dataClientBuyByDay[0],
-      date: day,
-      totalCost: 0,
-      totalBuy: 0,
-      totalProfits: 0,
+function CharBar3({ reports }) {
+  // Crear un objeto para almacenar las ventas por mes
+  const salesForMonth = {};
+  const months = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
+  // Llenar el objeto con las ventas existentes
+  for (const report of reports) {
+    salesForMonth[report.month] = {
+      totalCost: report.totalCost,
+      totalProfits: report.totalProfits,
+      totalSell: report.totalSell,
+      year: report.year,
     };
-  });
+  }
+  for (const month of months) {
+    if (!salesForMonth.hasOwnProperty(month)) {
+      salesForMonth[month] = {
+        totalCost: 0,
+        totalProfits: 0,
+        totalSell: 0,
+        year: 0,
+      };
+    }
+  }
+
+  const oneYearSales = months.map((month) => ({
+    month,
+    ...salesForMonth[month],
+  }));
+
+  const labels = [
+    "Enero",
+    "Febrero",
+    "Marzo",
+    "Abril",
+    "Mayo",
+    "Junio",
+    "Julio",
+    "Agosto",
+    "Septiembre",
+    "Octubre",
+    "Noviembre",
+    "Diciembre",
+  ];
+  const totalSell = oneYearSales.map((item) => item.totalSell);
+  const totalCost = oneYearSales.map((item) => item.totalCost);
+  const totalProfits = oneYearSales.map((item) => item.totalProfits);
+  const totalProfitsPercentage = oneYearSales.map(
+    (item) => (item.totalProfits * 100) / item.totalCost
+  );
 
   const data = {
     labels,
     datasets: [
       {
-        label: "Total ganancia",
-        data: finalData.map((d) => d.totalProfits),
-        borderColor: "rgb(255, 255, 255)",
-        backgroundColor: "rgba(255, 255, 255, 0.5)",
+        label: "Ventas",
+        data: totalSell,
+        backgroundColor: colors.info.main,
+      },
+      {
+        label: "Costo",
+        data: totalCost,
+        backgroundColor: "rgba(230, 18, 18, 0.7)",
+      },
+      {
+        label: "Ganancia",
+        data: totalProfits,
+        backgroundColor: "rgba(85, 230, 18, 0.7)",
+      },
+      {
+        label: "Ganancia%",
+        data: totalProfitsPercentage,
+        backgroundColor: "rgba(3, 252, 157, 0.7)",
       },
     ],
   };
@@ -128,33 +175,44 @@ function ClientChart2({ dataClientBuyByDay }) {
           () => (
             <MDBox
               variant="gradient"
-              bgColor="info"
               borderRadius="lg"
-              coloredShadow="info"
+              coloredShadow="dark"
               py={2}
               pr={0.5}
               mt={-5}
-              /* height="16rem" */
+              sx={{
+                background: "linear-gradient(0deg, #464b55 0%, #73809b 100%)",
+              }}
             >
-              <Line options={options} data={data} />
+              <Bar options={options} data={data} />
             </MDBox>
           ),
           []
         )}
         <MDBox pt={3} pb={1} px={1}>
           <MDTypography variant="h6" textTransform="capitalize">
-            Gráfico de ganancias
+            Totales mensuales
           </MDTypography>
-          <MDTypography component="div" variant="button" color="text" fontWeight="light">
-            Total de los últimos 30 días.
+          <MDTypography
+            component="div"
+            variant="button"
+            color="text"
+            fontWeight="light"
+          >
+            Total desde el 21/03/2023
           </MDTypography>
           <Divider />
           <MDBox display="flex" alignItems="center">
-            <MDTypography variant="button" color="text" lineHeight={1} sx={{ mt: 0.15, mr: 0.5 }}>
+            <MDTypography
+              variant="button"
+              color="text"
+              lineHeight={1}
+              sx={{ mt: 0.15, mr: 0.5 }}
+            >
               <Icon>schedule</Icon>
             </MDTypography>
             <MDTypography variant="button" color="text" fontWeight="light">
-              Last update {dateToLocalDate(new Date())}
+              Actualizado {dateToLocalDate(new Date())}
             </MDTypography>
           </MDBox>
         </MDBox>
@@ -163,4 +221,4 @@ function ClientChart2({ dataClientBuyByDay }) {
   );
 }
 
-export default ClientChart2;
+export default CharBar3;

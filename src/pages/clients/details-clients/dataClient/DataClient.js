@@ -1,6 +1,4 @@
 /* eslint-disable react/prop-types */
-/* eslint-disable import/prefer-default-export */
-
 import { Divider } from "@mui/material";
 import MDBox from "components/MDBox";
 import MDTypography from "components/MDTypography";
@@ -18,6 +16,14 @@ export function DataClient({ client }) {
       }}
     >
       <MDTypography variant="h5">Datos del cliente </MDTypography>
+      <MDTypography
+        component="div"
+        variant="button"
+        color="text"
+        fontWeight="light"
+      >
+        Datos personales y estado
+      </MDTypography>
       <Divider />
       <MDBox sx={{ display: "flex", gap: 2, justifyContent: "space-between" }}>
         <MDTypography variant="h6">Nombre: </MDTypography>
@@ -27,7 +33,15 @@ export function DataClient({ client }) {
       </MDBox>
       <MDBox sx={{ display: "flex", gap: 2, justifyContent: "space-between" }}>
         <MDTypography variant="h6">Email: </MDTypography>
-        <MDTypography variant="body2">{client.user.email}</MDTypography>
+        <MDTypography variant="body2">
+          {client.user.email || "No cargado"}
+        </MDTypography>
+      </MDBox>
+      <MDBox sx={{ display: "flex", gap: 2, justifyContent: "space-between" }}>
+        <MDTypography variant="h6">CUIL/DNI: </MDTypography>
+        <MDTypography variant="body2">
+          {client.cuil || "No cargado"}
+        </MDTypography>
       </MDBox>
       <MDBox sx={{ display: "flex", gap: 2, justifyContent: "space-between" }}>
         <MDTypography variant="h6">Teléfono: </MDTypography>
@@ -35,11 +49,15 @@ export function DataClient({ client }) {
       </MDBox>
       <MDBox sx={{ display: "flex", gap: 2, justifyContent: "space-between" }}>
         <MDTypography variant="h6">Tipo de cliente: </MDTypography>
-        <MDTypography variant="body2">{client.clientType.clientType}</MDTypography>
+        <MDTypography variant="body2">
+          {client.clientType.clientType}
+        </MDTypography>
       </MDBox>
       <MDBox sx={{ display: "flex", gap: 2, justifyContent: "space-between" }}>
         <MDTypography variant="h6">Categoría de cliente: </MDTypography>
-        <MDTypography variant="body2">{client.clientCategory.clientCategory}</MDTypography>
+        <MDTypography variant="body2">
+          {client.clientCategory.clientCategory}
+        </MDTypography>
       </MDBox>
       <MDBox sx={{ display: "flex", gap: 2, justifyContent: "space-between" }}>
         <MDTypography variant="h6">Estado: </MDTypography>

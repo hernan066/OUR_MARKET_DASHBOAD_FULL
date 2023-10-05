@@ -243,7 +243,9 @@ function TableListOrders({ orders: listOrders }) {
       // flex: 1,
       headerClassName: "super-app-theme--header",
       renderCell: (params) => (
-        <div style={{ fontWeight: "bold", color: "#12adc4" }}>{formatPrice(params.row.tax)}</div>
+        <div style={{ fontWeight: "bold", color: "#12adc4" }}>
+          {formatPrice(params.row.tax)}
+        </div>
       ),
     },
     {
@@ -252,7 +254,9 @@ function TableListOrders({ orders: listOrders }) {
       // flex: 1,
       headerClassName: "super-app-theme--header",
       renderCell: (params) => (
-        <div style={{ fontWeight: "bold", color: "#503bb8" }}>{formatPrice(params.row.total)}</div>
+        <div style={{ fontWeight: "bold", color: "#503bb8" }}>
+          {formatPrice(params.row.total)}
+        </div>
       ),
     },
     {
@@ -261,7 +265,9 @@ function TableListOrders({ orders: listOrders }) {
       // flex: 1,
       headerClassName: "super-app-theme--header",
       renderCell: (params) => (
-        <div style={{ fontWeight: "bold", color: "green" }}>{formatPrice(params.row.cash)}</div>
+        <div style={{ fontWeight: "bold", color: "green" }}>
+          {formatPrice(params.row.cash)}
+        </div>
       ),
     },
     {
@@ -270,7 +276,9 @@ function TableListOrders({ orders: listOrders }) {
       // flex: 1,
       headerClassName: "super-app-theme--header",
       renderCell: (params) => (
-        <div style={{ fontWeight: "bold", color: "green" }}>{formatPrice(params.row.transfer)}</div>
+        <div style={{ fontWeight: "bold", color: "green" }}>
+          {formatPrice(params.row.transfer)}
+        </div>
       ),
     },
     {
@@ -279,7 +287,9 @@ function TableListOrders({ orders: listOrders }) {
       // flex: 1,
       headerClassName: "super-app-theme--header",
       renderCell: (params) => (
-        <div style={{ fontWeight: "bold", color: "red" }}>{formatPrice(params.row.debt)}</div>
+        <div style={{ fontWeight: "bold", color: "red" }}>
+          {formatPrice(params.row.debt)}
+        </div>
       ),
     },
 
@@ -302,8 +312,8 @@ function TableListOrders({ orders: listOrders }) {
 
   return (
     <>
-      <Box m="20px" sx={{ overflowX: "scroll" }}>
-        <Box m="40px 0 0 0" height="75vh" width="2300px">
+      <Box sx={{ overflowX: "scroll" }}>
+        <Box height="75vh" width="2300px">
           <DataGrid
             checkboxSelection
             disableSelectionOnClick
