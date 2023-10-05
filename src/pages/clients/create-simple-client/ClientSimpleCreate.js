@@ -1,5 +1,4 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-/* eslint-disable no-unused-vars */
 /* eslint-disable react/prop-types */
 import { useNavigate } from "react-router-dom";
 import { LoadingButton } from "@mui/lab";
@@ -21,17 +20,12 @@ import {
   createSimpleClientAddressSchema,
   createSimpleClientSchema,
 } from "validations/client/createSimpleClientYup";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { provinces } from "data/province";
-import {
-  clearAddress,
-  setAddress,
-  setCity,
-  setProvince,
-  setZip,
-} from "reduxToolkit/mapAutocomplete";
+import { clearAddress } from "reduxToolkit/mapAutocomplete";
 import { useDispatch, useSelector } from "react-redux";
 import MapAutoComplete from "./mapAutoComplete";
+import { useSetAddressData } from "hooks/useSetAddressData";
 
 function SimpleClientCreate({ types, categories, zones }) {
   const navigate = useNavigate();
@@ -83,8 +77,8 @@ function SimpleClientCreate({ types, categories, zones }) {
           zip: values.zip,
           deliveryZone: values.deliveryZone,
           type: values.type,
-          lat: values.lat,
-          lng: values.lng,
+          lat: lat,
+          lng: lng,
         };
         const clientSimpleData = {
           //user
@@ -121,26 +115,13 @@ function SimpleClientCreate({ types, categories, zones }) {
       ? createSimpleClientAddressSchema
       : createSimpleClientSchema,
   });
-  useEffect(() => {
-    console.log(formik.values);
-    if (formik.values.address) {
-      dispatch(setAddress(formik.values.address));
-    }
-    if (formik.values.city) {
-      dispatch(setCity(formik.values.city));
-    }
-    if (formik.values.province) {
-      dispatch(setProvince(formik.values.province));
-    }
-    if (formik.values.zip) {
-      dispatch(setZip(formik.values.zip));
-    }
-  }, [
+
+  useSetAddressData(
     formik.values.address,
     formik.values.city,
     formik.values.province,
-    formik.values.zip,
-  ]);
+    formik.values.zip
+  );
 
   return (
     <MDBox pt={4} pb={3}>
@@ -405,7 +386,7 @@ function SimpleClientCreate({ types, categories, zones }) {
                 </Box>
 
                 <Box sx={{ width: "50%" }}>
-                  <MapAutoComplete formValues={formik.values} />
+                  <MapAutoComplete />
                 </Box>
               </Box>
             )}

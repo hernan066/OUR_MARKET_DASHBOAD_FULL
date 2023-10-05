@@ -22,6 +22,7 @@ import RedeemPoints from "./redeemPoints/RedeemPoints";
 import EditClient from "./editClient";
 import EditClientAddress from "./editAddress";
 import HistoryPoints from "./historyPoints";
+import { useLoadScript } from "@react-google-maps/api";
 
 const getListProducts = (orders) => {
   const listOfProducts = orders.map((product) => product.orderItems);
@@ -121,11 +122,15 @@ function DetailsClients() {
       setListTopProducts(repeatSum(listProducts));
     }
   }, [listProducts]);
-  console.log(dataClient);
+
+  const { isLoaded } = useLoadScript({
+    googleMapsApiKey: import.meta.env.VITE_APP_MAP_API_KEY,
+    libraries: ["places"],
+  });
 
   return (
     <DashboardLayout>
-      {/*   <DashboardNavbar /> */}
+      <DashboardNavbar />
       <MDBox pt={6} pb={3}>
         <Grid container spacing={6}>
           <Grid item xs={12}>
@@ -159,8 +164,8 @@ function DetailsClients() {
                 <Tab label="Datos del cliente" />
                 <Tab label="Editar cliente" />
                 <Tab label="Editar dirección" />
-                <Tab label="Canjear puntos" />
-                <Tab label="Historial de puntos" />
+                {/*   <Tab label="Canjear puntos" />
+                <Tab label="Historial de puntos" /> */}
               </Tabs>
             </Box>
             {page === 0 && (

@@ -32,7 +32,6 @@ export const AutoCompleteForm = () => {
   } = usePlacesAutocomplete({
     callbackName: "YOUR_CALLBACK_NAME",
     requestOptions: {
-      /* Define search scope here */
       types: ["address"],
       componentRestrictions: { country: "AR" },
     },
@@ -71,8 +70,25 @@ export const AutoCompleteForm = () => {
           onChange={(e) => setValue(e.target.value)}
           disabled={!ready}
           value={value}
-          sx={{ backgroundColor: "#fff" }}
+          sx={{ backgroundColor: "#fff", borderRadius: "8px" }}
         />
+        <Box
+          fontSize={20}
+          sx={{
+            cursor: "pointer",
+            position: "absolute",
+            right: 5,
+            top: 17.5,
+            backgroundColor: "#fff",
+            padding: "5px",
+          }}
+          onClick={() => {
+            clearSuggestions();
+            setValue("");
+          }}
+        >
+          X
+        </Box>
         <Box
           sx={{
             backgroundColor: "#fff",

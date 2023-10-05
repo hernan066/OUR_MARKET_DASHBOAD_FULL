@@ -8,8 +8,8 @@ const mapAutocompleteSlice = createSlice({
     province: "",
     city: "",
     zip: "",
-    lat: -34.56738150137404,
-    lng: -58.74163704277706,
+    lat: 0,
+    lng: 0,
   },
   reducers: {
     setAddress: (state, action) => {
@@ -36,8 +36,8 @@ const mapAutocompleteSlice = createSlice({
       state.province = "";
       state.city = "";
       state.zip = "";
-      state.lat = -34.56738150137404;
-      state.lng = -58.74163704277706;
+      state.lat = 0;
+      state.lng = 0;
     },
   },
 });

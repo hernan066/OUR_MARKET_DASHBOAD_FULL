@@ -1,5 +1,4 @@
 /* eslint-disable react/prop-types */
-/* eslint-disable no-unused-vars */
 import { useNavigate } from "react-router-dom";
 import { LoadingButton } from "@mui/lab";
 import { Alert, Box, MenuItem, TextField } from "@mui/material";
@@ -10,19 +9,20 @@ import colors from "assets/theme/base/colors";
 import { createClientAddressSchema } from "validations/clientAddress/createClientAddressSchemaYup";
 import Swal from "sweetalert2";
 import { usePutClientAddressMutation } from "api/clientsAddressApi";
-import { geoLocalization } from "api/geoApi";
-import { useEffect, useState } from "react";
-import Loading from "components/DRLoading";
 import { provinces } from "data/province";
-import Leaflet from "./Leaflet";
+import MapAutoComplete from "./mapAutoComplete";
+import { useEffect } from "react";
+import { clearAddress, setLat, setLng } from "reduxToolkit/mapAutocomplete";
+import { useDispatch, useSelector } from "react-redux";
+import { useSetAddressData } from "hooks/useSetAddressData";
 
 function ClientAddressEdit({ client, zones, clientAddress }) {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const { lat, lng } = useSelector((store) => store.mapAutocomplete);
 
   const [createClientAddress, { isLoading, isError }] =
     usePutClientAddressMutation();
-  const [coords, setCoord] = useState(null);
-  const [loading, setLoading] = useState(false);
 
   const formik = useFormik({
     initialValues: {
@@ -35,22 +35,25 @@ function ClientAddressEdit({ client, zones, clientAddress }) {
       zip: clientAddress.zip,
       deliveryZone: clientAddress.deliveryZone,
       type: clientAddress.type,
-      phone: clientAddress.phone,
-      lat: clientAddress?.lat || 0,
-      lng: clientAddress?.lng || 0,
+      lat,
+      lng,
     },
     onSubmit: async (values) => {
       const editClientAddress = {
         ...values,
         user: client.user._id,
         client: client._id,
+        lat,
+        lng,
       };
 
       const res = await createClientAddress({
         id: clientAddress._id,
         ...editClientAddress,
       }).unwrap();
-      if (res) {
+      console.log(editClientAddress);
+      console.log(res);
+      if (res.ok) {
         Swal.fire({
           position: "center",
           icon: "success",
@@ -63,19 +66,21 @@ function ClientAddressEdit({ client, zones, clientAddress }) {
     validationSchema: createClientAddressSchema,
   });
 
+  console.log(lat, lng);
+
   useEffect(() => {
-    setLoading(true);
-    const getGeo = async () => {
-      const geo = await geoLocalization(
-        clientAddress.address,
-        clientAddress.city
-      );
-      setCoord(geo?.results[0]?.geometry.location);
-    };
-    getGeo();
-    setLoading(false);
+    dispatch(clearAddress());
+    dispatch(setLat(clientAddress.lat || 0));
+    dispatch(setLng(clientAddress.lng || 0));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  useSetAddressData(
+    formik.values.address,
+    formik.values.city,
+    formik.values.province,
+    formik.values.zip
+  );
 
   return (
     <MDBox pt={3} pb={3}>
@@ -205,21 +210,11 @@ function ClientAddressEdit({ client, zones, clientAddress }) {
             <TextField
               margin="normal"
               fullWidth
-              name="phone"
-              label="Telefono del negocio (opcional)"
-              value={formik.values.phone}
-              error={!!formik.errors.phone}
-              helperText={formik.errors.phone}
-              onChange={formik.handleChange}
-            />
-            <TextField
-              margin="normal"
-              fullWidth
               required
               type="number"
               name="lat"
-              label="Latitud en base de datos"
-              value={formik.values.lat}
+              label="Latitud"
+              value={lat}
               error={!!formik.errors.lat}
               helperText={formik.errors.lat}
               onChange={formik.handleChange}
@@ -230,8 +225,8 @@ function ClientAddressEdit({ client, zones, clientAddress }) {
               required
               type="number"
               name="lng"
-              label="Longitud en base de datos"
-              value={formik.values.lng}
+              label="Longitud"
+              value={lng}
               error={!!formik.errors.lng}
               helperText={formik.errors.lng}
               onChange={formik.handleChange}
@@ -267,14 +262,9 @@ function ClientAddressEdit({ client, zones, clientAddress }) {
             )}
           </Box>
 
-          <Box mt={1.5} sx={{ width: "50%", height: 540 }}>
-            {!coords ? (
-              <Loading />
-            ) : (
-              <Leaflet coords={coords} clientAddress={clientAddress} />
-            )}
+          <Box mt={3} sx={{ width: "50%" }}>
+            <MapAutoComplete />
           </Box>
-          {/*  <Box sx={{ width: "50%" }}>{loading ? <Loading /> : <Map coords={coords} />}</Box> */}
         </Box>
       </Box>
     </MDBox>

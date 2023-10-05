@@ -23,7 +23,7 @@ function EditClientAddress() {
     isLoading: l3,
     isError: e3,
   } = useGetAddressesClientQuery(id);
-  console.log(dataClient);
+
   return (
     <>
       <MDBox>

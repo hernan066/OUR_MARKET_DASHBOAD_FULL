@@ -29,4 +29,6 @@ export const createClientAddressSchema = yup.object().shape({
     .required("Requerido")
     .matches(lettersNumbersAndSpaces, "Solo letras y números"),
   zip: yup.number().required("Requerido"),
+  lat: yup.number().required("Requerido"),
+  lng: yup.number().required("Requerido"),
 });

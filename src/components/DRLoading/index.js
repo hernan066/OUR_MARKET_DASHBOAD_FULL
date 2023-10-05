@@ -10,7 +10,7 @@ function Loading() {
         minHeight: "100vh",
       }}
     >
-      <CircularProgress />
+      <CircularProgress color="info" />
     </Box>
   );
 }
