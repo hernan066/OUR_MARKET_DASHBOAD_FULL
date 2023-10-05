@@ -28,6 +28,13 @@ import ListClientAddress from "pages/clientsAddress/list-clientAddress";
 import CreateNewClientAddress from "pages/clientsAddress/create-clientAddress";
 import EditClientAddress from "pages/clientsAddress/edit-clientAddress";
 import LocationsPage from "pages/locations";
+import ListOrders from "pages/orders/order-list";
+import ListOrdersActive from "pages/orders/order-active";
+import ListOrdersUnpaid from "pages/orders/order-unpaid";
+import OrderDetails from "pages/orders/order-datails";
+import OrderCreate from "pages/orders/order-create";
+import OrderLocalCreate from "pages/orders/order-local-create";
+import OrderEdit from "pages/orders/order-edit";
 
 const routes = [
   //dashboard
@@ -280,6 +287,64 @@ const routes = [
     component: (
       <RequireAuth>
         <LocationsPage />
+      </RequireAuth>
+    ),
+  },
+
+  /* Ordenes */
+  {
+    route: "/ordenes/lista",
+    component: (
+      <RequireAuth>
+        <ListOrders />
+      </RequireAuth>
+    ),
+  },
+  {
+    route: "/ordenes/lista/activas",
+    component: (
+      <RequireAuth>
+        <ListOrdersActive />
+      </RequireAuth>
+    ),
+  },
+  {
+    route: "/ordenes/lista/impagas",
+    component: (
+      <RequireAuth>
+        <ListOrdersUnpaid />
+      </RequireAuth>
+    ),
+  },
+  {
+    route: "/ordenes/detalle/:id",
+    component: (
+      <RequireAuth>
+        <OrderDetails />
+      </RequireAuth>
+    ),
+  },
+  {
+    route: "/ordenes/nueva",
+    component: (
+      <RequireAuth>
+        <OrderCreate />
+      </RequireAuth>
+    ),
+  },
+  {
+    route: "/ordenes/nueva-local",
+    component: (
+      <RequireAuth>
+        <OrderLocalCreate />
+      </RequireAuth>
+    ),
+  },
+  {
+    route: "/ordenes/editar/:id",
+    component: (
+      <RequireAuth>
+        <OrderEdit />
       </RequireAuth>
     ),
   },
