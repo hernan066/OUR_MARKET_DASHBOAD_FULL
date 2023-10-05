@@ -21,7 +21,7 @@ export const userApi = apiSlice.injectEndpoints({
       providesTags: ["reports"],
     }),
     getTotalOrdersByMonth: builder.query({
-      query: (client) => `/reports/ordersByMonth?client=${client}`,
+      query: (client = "") => `/reports/ordersByMonth?client=${client}`,
       // keepUnusedDataFor: 3,
       extraOptions: { maxRetries: 5 },
       providesTags: ["reports"],
