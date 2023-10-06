@@ -12,16 +12,25 @@ import PollIcon from "@mui/icons-material/Poll";
 
 function TotalClientsBuy({ clients }) {
   const sliceClients = clients
-    .filter((client) => client.name !== "consumidor " && client.name !== "Caleb" && client.active)
+    .filter(
+      (client) =>
+        client.name !== "consumidor " &&
+        client.name !== "Caleb" &&
+        client.active
+    )
     .slice(0, 12)
     .sort((a, b) => b.totalProfits - a.totalProfits);
 
   return (
     <Card>
       <MDBox sx={{ flex: 1, padding: 3 }}>
-        <MDTypography variant="h6" sx={{ display: "flex", alignItems: "center" }}>
+        <MDTypography
+          variant="h6"
+          sx={{ display: "flex", alignItems: "center" }}
+        >
           <PollIcon fontSize="large" /> Top 12 Clientes{" "}
-          <span style={{ color: "green", margin: " 0 5px" }}>Activos</span> con más ganancia
+          <span style={{ color: "green", margin: " 0 5px" }}>Activos</span> con
+          más ganancia
         </MDTypography>
         <MDTypography variant="button" fontWeight="regular" color="text">
           Han comprado los últimos 20 días.
@@ -29,33 +38,50 @@ function TotalClientsBuy({ clients }) {
         <Divider />
 
         {sliceClients.map((client) => (
-          <MDBox
+          <Link
+            to={`/clientes/detalle/${client.clientId}`}
             key={client.clientId}
-            mb={1}
-            sx={{
-              display: "flex",
-              justifyContent: "space-between",
-              alignItems: "center",
-            }}
           >
-            <MDBox sx={{ display: "flex", gap: 3, alignItems: "center", width: "75%" }}>
-              <Avatar
-                src={
-                  client?.img ||
-                  "https://ik.imagekit.io/mrprwema7/OurMarket/pngwing.com%20(3)%20(2)_HuAjhlJK-.png?updatedAt=1695995911119"
-                }
-              />
-              <Link to={`/clientes/detalle/${client.clientId}`}>
+            <MDBox
+              mb={1}
+              sx={{
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "center",
+                transition: "0.3s",
+                "&:hover": {
+                  backgroundColor: "#dddddd2d",
+                },
+              }}
+            >
+              <MDBox
+                sx={{
+                  display: "flex",
+                  gap: 3,
+                  alignItems: "center",
+                  width: "75%",
+                }}
+              >
+                <Avatar
+                  src={
+                    client?.img ||
+                    "https://ik.imagekit.io/mrprwema7/OurMarket/pngwing.com%20(3)%20(2)_HuAjhlJK-.png?updatedAt=1695995911119"
+                  }
+                />
                 <MDTypography variant="body2">
                   {client.name} {client.lastName}
                 </MDTypography>
-              </Link>
-            </MDBox>
+              </MDBox>
 
-            <MDTypography variant="body2" mr={1} sx={{ width: "25%", textAlign: "right" }}>
-              {formatPrice(client?.totalProfits)}
-            </MDTypography>
-          </MDBox>
+              <MDTypography
+                variant="body2"
+                mr={1}
+                sx={{ width: "25%", textAlign: "right" }}
+              >
+                {formatPrice(client?.totalProfits)}
+              </MDTypography>
+            </MDBox>
+          </Link>
         ))}
       </MDBox>
     </Card>

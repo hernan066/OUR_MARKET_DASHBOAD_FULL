@@ -16,11 +16,14 @@ function TotalProductsProfit({ totalProducts }) {
   return (
     <Card>
       <MDBox sx={{ flex: 1, padding: 3 }}>
-        <MDTypography variant="h6" sx={{ display: "flex", alignItems: "center" }}>
+        <MDTypography
+          variant="h6"
+          sx={{ display: "flex", alignItems: "center" }}
+        >
           <PollIcon fontSize="large" /> Top 20 productos con mas ganancia
         </MDTypography>
         <MDTypography variant="button" fontWeight="regular" color="text">
-          Desde el 21/03/2023.
+          Total facturado menos costo
         </MDTypography>
         <Divider />
         <MDBox
@@ -31,7 +34,9 @@ function TotalProductsProfit({ totalProducts }) {
             alignItems: "center",
           }}
         >
-          <MDBox sx={{ display: "flex", gap: 3, alignItems: "center", width: "58%" }}>
+          <MDBox
+            sx={{ display: "flex", gap: 3, alignItems: "center", width: "58%" }}
+          >
             <MDTypography variant="h6" ml={2}>
               PRODUCTO
             </MDTypography>
@@ -58,33 +63,59 @@ function TotalProductsProfit({ totalProducts }) {
         </MDBox>
 
         {sliceProducts.map((product) => (
-          <MDBox
+          <Link
+            to={`/productos/detalle/${product?.productId}`}
             key={product.productId}
-            mb={1}
-            sx={{
-              display: "flex",
-              justifyContent: "space-between",
-              alignItems: "center",
-            }}
           >
-            <MDBox sx={{ display: "flex", gap: 3, alignItems: "center", width: "58%" }}>
-              <Avatar
-                src={product?.img}
-                sx={{ boxShadow: "1px 1px 3px #e1e1e1, -1px -1px 3px #e1e1e1" }}
-              />
-              <Link to={`/productos/detalle/${product?.productId}`}>
+            <MDBox
+              mb={1}
+              sx={{
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "center",
+                transition: "0.3s",
+                "&:hover": {
+                  backgroundColor: "#dddddd2d",
+                },
+              }}
+            >
+              <MDBox
+                sx={{
+                  display: "flex",
+                  gap: 3,
+                  alignItems: "center",
+                  width: "58%",
+                }}
+              >
+                <Avatar
+                  src={product?.img}
+                  sx={{
+                    boxShadow: "1px 1px 3px #e1e1e1, -1px -1px 3px #e1e1e1",
+                  }}
+                />
+
                 <MDTypography variant="body2">{product.name}</MDTypography>
-              </Link>
+              </MDBox>
+
+              <MDTypography
+                variant="body2"
+                sx={{ width: "15%", textAlign: "center" }}
+              >
+                {formatQuantity(
+                  (product.totalProfits * 100) / product.totalCost
+                )}
+                %
+              </MDTypography>
+
+              <MDTypography
+                variant="body2"
+                mr={1}
+                sx={{ width: "15%", textAlign: "right" }}
+              >
+                {formatPrice(product?.totalProfits)}
+              </MDTypography>
             </MDBox>
-
-            <MDTypography variant="body2" sx={{ width: "15%", textAlign: "center" }}>
-              {formatQuantity((product.totalProfits * 100) / product.totalCost)}%
-            </MDTypography>
-
-            <MDTypography variant="body2" mr={1} sx={{ width: "15%", textAlign: "right" }}>
-              {formatPrice(product?.totalProfits)}
-            </MDTypography>
-          </MDBox>
+          </Link>
         ))}
       </MDBox>
     </Card>

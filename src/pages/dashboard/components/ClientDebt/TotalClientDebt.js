@@ -16,7 +16,10 @@ function TotalClientsDebt({ clients }) {
   return (
     <Card>
       <MDBox sx={{ flex: 1, padding: 3 }}>
-        <MDTypography variant="h6" sx={{ display: "flex", alignItems: "center" }}>
+        <MDTypography
+          variant="h6"
+          sx={{ display: "flex", alignItems: "center" }}
+        >
           <PollIcon fontSize="large" /> Top 12 Clientes deudores
         </MDTypography>
         <MDTypography variant="button" fontWeight="regular" color="text">
@@ -25,33 +28,50 @@ function TotalClientsDebt({ clients }) {
         <Divider />
 
         {sliceClients.map((client) => (
-          <MDBox
+          <Link
+            to={`/clientes/detalle/${client.clientId}`}
             key={client.clientId}
-            mb={1}
-            sx={{
-              display: "flex",
-              justifyContent: "space-between",
-              alignItems: "center",
-            }}
           >
-            <MDBox sx={{ display: "flex", gap: 3, alignItems: "center", width: "50%" }}>
-              <Avatar
-                src={
-                  client?.img ||
-                  "https://ik.imagekit.io/mrprwema7/OurMarket/pngwing.com%20(3)%20(2)_HuAjhlJK-.png?updatedAt=1695995911119"
-                }
-              />
-              <Link to={`/clientes/detalle/${client.clientId}`}>
+            <MDBox
+              mb={1}
+              sx={{
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "center",
+                transition: "0.3s",
+                "&:hover": {
+                  backgroundColor: "#dddddd2d",
+                },
+              }}
+            >
+              <MDBox
+                sx={{
+                  display: "flex",
+                  gap: 3,
+                  alignItems: "center",
+                  width: "50%",
+                }}
+              >
+                <Avatar
+                  src={
+                    client?.img ||
+                    "https://ik.imagekit.io/mrprwema7/OurMarket/pngwing.com%20(3)%20(2)_HuAjhlJK-.png?updatedAt=1695995911119"
+                  }
+                />
                 <MDTypography variant="body2">
                   {client.name} {client.lastName}
                 </MDTypography>
-              </Link>
-            </MDBox>
+              </MDBox>
 
-            <MDTypography variant="body2" mr={1} sx={{ width: "25%", textAlign: "right" }}>
-              {formatPrice(client?.totalDebt)}
-            </MDTypography>
-          </MDBox>
+              <MDTypography
+                variant="body2"
+                mr={1}
+                sx={{ width: "25%", textAlign: "right" }}
+              >
+                {formatPrice(client?.totalDebt)}
+              </MDTypography>
+            </MDBox>
+          </Link>
         ))}
       </MDBox>
     </Card>
