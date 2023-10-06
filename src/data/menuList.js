@@ -110,11 +110,6 @@ export const menuList = [
     key: "distribucion",
     subRoutes: [
       {
-        name: "Lista reparto",
-        icon: "format_list_bulleted_icon",
-        url: "/distribucion/repartidores/lista-reparto",
-      },
-      {
         name: "Distribuidoras",
         icon: "store_icon",
         url: "/distribucion/distribuidoras/lista",

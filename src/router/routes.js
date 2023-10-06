@@ -35,6 +35,20 @@ import OrderDetails from "pages/orders/order-datails";
 import OrderCreate from "pages/orders/order-create";
 import OrderLocalCreate from "pages/orders/order-local-create";
 import OrderEdit from "pages/orders/order-edit";
+import ListDistributors from "pages/distributor/list-distributors";
+import CreateNewDistributor from "pages/distributor/create-distributors";
+import EditDistributor from "pages/distributor/edit-distributors";
+import ListDeliveryTruck from "pages/deliveryTruck/list-deliveryTruck";
+import CreateDeliveryTruck from "pages/deliveryTruck/create-deliveryTruck";
+import EditDeliveryTruck from "pages/deliveryTruck/edit-deliveryTruck";
+import DetailsDeliveryTruck from "pages/deliveryTruck/details-deliveryTruck";
+import ListDeliveryZone from "pages/deliveryZone/list-deliveryZone";
+import CreateNewDeliveryZone from "pages/deliveryZone/create-deliveryZone";
+import EditDeliveryZone from "pages/deliveryZone/edit-deliveryZone";
+import ListDeliverySubZone from "pages/deliverySubZone/list-deliverySubZone";
+import CreateNewSubDeliveryZone from "pages/deliverySubZone/create-deliverySubZone";
+import EditDeliverySubZone from "pages/deliverySubZone/edit-deliverySubZone";
+import ProductsSellByRange from "pages/reports/reportByRange";
 
 const routes = [
   //dashboard
@@ -345,6 +359,131 @@ const routes = [
     component: (
       <RequireAuth>
         <OrderEdit />
+      </RequireAuth>
+    ),
+  },
+  /* Distribuidoras */
+  {
+    route: "/distribucion/distribuidoras/lista",
+    component: (
+      <RequireAuth>
+        <ListDistributors />
+      </RequireAuth>
+    ),
+  },
+  {
+    route: "/distribucion/distribuidoras/nueva",
+    component: (
+      <RequireAuth>
+        <CreateNewDistributor />
+      </RequireAuth>
+    ),
+  },
+  {
+    route: "/distribucion/distribuidoras/editar/:id",
+    component: (
+      <RequireAuth>
+        <EditDistributor />
+      </RequireAuth>
+    ),
+  },
+  /* Repartidores */
+  {
+    route: "/distribucion/repartidores/lista",
+    component: (
+      <RequireAuth>
+        <ListDeliveryTruck />
+      </RequireAuth>
+    ),
+  },
+  {
+    route: "/distribucion/repartidores/nuevo",
+    component: (
+      <RequireAuth>
+        <CreateDeliveryTruck />
+      </RequireAuth>
+    ),
+  },
+  {
+    route: "/distribucion/repartidores/editar/:id",
+    component: (
+      <RequireAuth>
+        <EditDeliveryTruck />
+      </RequireAuth>
+    ),
+  },
+  {
+    route: "/distribucion/repartidores/detalle/:id",
+    component: (
+      <RequireAuth>
+        <DetailsDeliveryTruck />
+      </RequireAuth>
+    ),
+  },
+  /* Zonas reparto */
+  {
+    route: "/distribucion/zonas/lista",
+    component: (
+      <RequireAuth>
+        <ListDeliveryZone />
+      </RequireAuth>
+    ),
+  },
+  {
+    route: "/distribucion/zonas/nueva",
+    component: (
+      <RequireAuth>
+        <CreateNewDeliveryZone />
+      </RequireAuth>
+    ),
+  },
+  {
+    route: "/distribucion/zonas/editar/:id",
+    component: (
+      <RequireAuth>
+        <EditDeliveryZone />
+      </RequireAuth>
+    ),
+  },
+  /* Sub Zonas reparto */
+  {
+    route: "/distribucion/sub-zonas/lista",
+    component: (
+      <RequireAuth>
+        <ListDeliverySubZone />
+      </RequireAuth>
+    ),
+  },
+  {
+    route: "/distribucion/sub-zonas/nueva",
+    component: (
+      <RequireAuth>
+        <CreateNewSubDeliveryZone />
+      </RequireAuth>
+    ),
+  },
+  {
+    route: "/distribucion/sub-zonas/editar/:id",
+    component: (
+      <RequireAuth>
+        <EditDeliverySubZone />
+      </RequireAuth>
+    ),
+  },
+  /* Reportes */
+  /* {
+    route: "/reportes/productos-vendidos-por-dia",
+    component: (
+      <RequireAuth>
+        <ProductsSellByDay />
+      </RequireAuth>
+    ),
+  }, */
+  {
+    route: "/reportes/productos-vendidos-por-rango",
+    component: (
+      <RequireAuth>
+        <ProductsSellByRange />
       </RequireAuth>
     ),
   },
