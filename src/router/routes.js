@@ -49,6 +49,9 @@ import ListDeliverySubZone from "pages/deliverySubZone/list-deliverySubZone";
 import CreateNewSubDeliveryZone from "pages/deliverySubZone/create-deliverySubZone";
 import EditDeliverySubZone from "pages/deliverySubZone/edit-deliverySubZone";
 import ProductsSellByRange from "pages/reports/reportByRange";
+import CreateNewExpenses from "pages/expenses/new-expenses";
+import ListExpenses from "pages/expenses/list-expenses";
+import EditExpenses from "pages/expenses/edit-expenses";
 
 const routes = [
   //dashboard
@@ -484,6 +487,31 @@ const routes = [
     component: (
       <RequireAuth>
         <ProductsSellByRange />
+      </RequireAuth>
+    ),
+  },
+  // Expenses
+  {
+    route: "/gastos/nuevo",
+    component: (
+      <RequireAuth>
+        <CreateNewExpenses />
+      </RequireAuth>
+    ),
+  },
+  {
+    route: "/gastos/lista",
+    component: (
+      <RequireAuth>
+        <ListExpenses />
+      </RequireAuth>
+    ),
+  },
+  {
+    route: "/gastos/editar/:id",
+    component: (
+      <RequireAuth>
+        <EditExpenses />
       </RequireAuth>
     ),
   },

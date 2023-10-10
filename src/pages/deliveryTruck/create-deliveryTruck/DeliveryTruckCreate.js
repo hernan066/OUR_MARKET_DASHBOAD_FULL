@@ -1,9 +1,3 @@
-/* eslint-disable no-unused-vars */
-/* eslint-disable no-shadow */
-/* eslint-disable no-param-reassign */
-/* eslint-disable react/prop-types */
-/* eslint-disable react/jsx-boolean-value */
-/* eslint-disable no-underscore-dangle */
 import { useNavigate } from "react-router-dom";
 import { LoadingButton } from "@mui/lab";
 import { Alert, Box, MenuItem, TextField } from "@mui/material";
@@ -15,25 +9,32 @@ import Swal from "sweetalert2";
 import { usePostDeliveryTruckMutation } from "api/deliveryTruckApi";
 import { createDeliveryTruckSchema } from "validations/deliveryTruck/createDeliveryTruckYup";
 
-function DeliveryTruckCreate({ listUsers, ListDistributors, listDeliveryZones }) {
+function DeliveryTruckCreate() {
   const navigate = useNavigate();
 
-  const [createDeliveryTruck, { isLoading, isError }] = usePostDeliveryTruckMutation();
-
-  const deliveryFilterUsers = listUsers.filter((user) => user.role.role === "DELIVERY_ROLE");
+  const [createDeliveryTruck, { isLoading, isError: e1, error }] =
+    usePostDeliveryTruckMutation();
 
   const formik = useFormik({
     initialValues: {
-      user: "",
-      distributor: "",
+      name: "",
+      lastName: "",
+      email: "",
+      password: "",
+      phone: "",
+      dni: "",
+      // repartidor
       truckId: "",
-      defaultZone: "",
       patent: "",
       coldChamber: "",
       maximumLoad: undefined,
     },
     onSubmit: async (values) => {
-      await createDeliveryTruck(values).unwrap();
+      const data = {
+        ...values,
+        truckId: `${values.name}_${values.patent}`,
+      };
+      await createDeliveryTruck({ ...data }).unwrap();
       Swal.fire({
         position: "center",
         icon: "success",
@@ -63,108 +64,124 @@ function DeliveryTruckCreate({ listUsers, ListDistributors, listDeliveryZones })
             onSubmit={formik.handleSubmit}
             sx={{ width: "100%" }}
           >
-            <TextField
-              margin="normal"
-              required
-              select
-              name="user"
-              fullWidth
-              label="Usuario"
-              value={formik.values.user}
-              error={!!formik.errors.user}
-              helperText={formik.errors.user}
-              onChange={formik.handleChange}
-            >
-              {deliveryFilterUsers.map((user) => (
-                <MenuItem key={user._id} value={user._id}>
-                  {user.email}
-                </MenuItem>
-              ))}
-            </TextField>
-            <TextField
-              margin="normal"
-              required
-              select
-              name="distributor"
-              fullWidth
-              label="Distribuidora"
-              value={formik.values.distributor}
-              error={!!formik.errors.distributor}
-              helperText={formik.errors.distributor}
-              onChange={formik.handleChange}
-            >
-              {ListDistributors.map((distributor) => (
-                <MenuItem key={distributor._id} value={distributor._id}>
-                  {distributor.businessName}
-                </MenuItem>
-              ))}
-            </TextField>
-            <TextField
-              margin="normal"
-              fullWidth
-              required
-              name="truckId"
-              label="ID (Distribuidora_Numero)"
-              error={!!formik.errors.truckId}
-              helperText={formik.errors.truckId}
-              onChange={formik.handleChange}
-            />
-            <TextField
-              margin="normal"
-              fullWidth
-              required
-              name="patent"
-              label="Patente"
-              error={!!formik.errors.patent}
-              helperText={formik.errors.patent}
-              onChange={formik.handleChange}
-            />
-
-            <TextField
-              margin="normal"
-              required
-              select
-              name="defaultZone"
-              fullWidth
-              label="Zona de reparto"
-              value={formik.values.defaultZone}
-              error={!!formik.errors.defaultZone}
-              helperText={formik.errors.defaultZone}
-              onChange={formik.handleChange}
-            >
-              {listDeliveryZones.map((zone) => (
-                <MenuItem key={zone._id} value={zone._id}>
-                  {zone.name}
-                </MenuItem>
-              ))}
-            </TextField>
-
-            <TextField
-              margin="normal"
-              fullWidth
-              required
-              type="number"
-              name="maximumLoad"
-              label="Carga maxima"
-              error={!!formik.errors.maximumLoad}
-              helperText={formik.errors.maximumLoad}
-              onChange={formik.handleChange}
-            />
-            <TextField
-              margin="normal"
-              required
-              select
-              name="coldChamber"
-              fullWidth
-              label="Cámara de frio"
-              value={formik.values.coldChamber}
-              error={!!formik.errors.coldChamber}
-              helperText={formik.errors.coldChamber}
-              onChange={formik.handleChange}
-            >
-              <MenuItem value="true">Si</MenuItem>
-              <MenuItem value="false">No</MenuItem>
-            </TextField>
+            <Box sx={{ width: "100%" }}>
+              <Box sx={{ display: "flex", gap: 3 }}>
+                <Box sx={{ width: "50%" }}>
+                  <TextField
+                    margin="normal"
+                    required
+                    fullWidth
+                    autoFocus
+                    label="Nombre/s"
+                    name="name"
+                    error={!!formik.errors.name}
+                    helperText={formik.errors.name}
+                    onChange={formik.handleChange}
+                  />
+                  <TextField
+                    margin="normal"
+                    required
+                    fullWidth
+                    name="lastName"
+                    label="Apellido"
+                    error={!!formik.errors.lastName}
+                    helperText={formik.errors.lastName}
+                    onChange={formik.handleChange}
+                  />
+                  <TextField
+                    margin="normal"
+                    required
+                    fullWidth
+                    name="password"
+                    label="Password"
+                    type="password"
+                    error={!!formik.errors.password}
+                    helperText={formik.errors.password}
+                    onChange={formik.handleChange}
+                  />
+                  <TextField
+                    margin="normal"
+                    fullWidth
+                    required
+                    label="Email"
+                    name="email"
+                    error={!!formik.errors.email}
+                    helperText={formik.errors.email}
+                    onChange={formik.handleChange}
+                  />
+                  <TextField
+                    margin="normal"
+                    required
+                    fullWidth
+                    name="phone"
+                    label="Telefono"
+                    error={!!formik.errors.phone}
+                    helperText={formik.errors.phone}
+                    onChange={formik.handleChange}
+                  />
+                </Box>
+                <Box sx={{ width: "50%" }}>
+                  <TextField
+                    margin="normal"
+                    type="number"
+                    fullWidth
+                    required
+                    name="dni"
+                    label="DNI/CUIL"
+                    error={!!formik.errors.dni}
+                    helperText={formik.errors.dni}
+                    onChange={formik.handleChange}
+                  />
+                  <TextField
+                    margin="normal"
+                    fullWidth
+                    required
+                    name="patent"
+                    label="Patente"
+                    error={!!formik.errors.patent}
+                    helperText={formik.errors.patent}
+                    onChange={formik.handleChange}
+                  />
+                  <TextField
+                    margin="normal"
+                    fullWidth
+                    required
+                    type="number"
+                    name="maximumLoad"
+                    label="Carga maxima"
+                    error={!!formik.errors.maximumLoad}
+                    helperText={formik.errors.maximumLoad}
+                    onChange={formik.handleChange}
+                  />
+                  <TextField
+                    margin="normal"
+                    required
+                    select
+                    name="coldChamber"
+                    fullWidth
+                    label="Cámara de frio"
+                    value={formik.values.coldChamber}
+                    error={!!formik.errors.coldChamber}
+                    helperText={formik.errors.coldChamber}
+                    onChange={formik.handleChange}
+                  >
+                    <MenuItem value="true">Si</MenuItem>
+                    <MenuItem value="false">No</MenuItem>
+                  </TextField>
+                  <TextField
+                    margin="normal"
+                    fullWidth
+                    disabled
+                    name="truckId"
+                    label="ID Repartidor"
+                    value={`${formik.values.name}_${formik.values.patent}`}
+                    error={!!formik.errors.truckId}
+                    helperText={formik.errors.truckId}
+                    onChange={formik.handleChange}
+                  />
+                </Box>
+              </Box>
+            </Box>
 
             <LoadingButton
               type="submit"
@@ -191,7 +208,13 @@ function DeliveryTruckCreate({ listUsers, ListDistributors, listDeliveryZones })
             >
               Cancelar
             </MDButton>
-            {isError && <Alert severity="error">Ha ocurrido un error, repartidor no creado</Alert>}
+            {e1 && (
+              <Alert severity="error">
+                {error
+                  ? JSON.stringify(error.data.msg)
+                  : "Error — Cliente no creado"}
+              </Alert>
+            )}
           </Box>
         </Box>
       </Box>

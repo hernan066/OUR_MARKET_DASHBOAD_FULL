@@ -1,17 +1,18 @@
-/* eslint-disable no-unused-vars */
 import Grid from "@mui/material/Grid";
 import Card from "@mui/material/Card";
 import MDBox from "components/MDBox";
 import MDTypography from "components/MDTypography";
 import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
 import DashboardNavbar from "examples/Navbars/DashboardNavbar";
-import DeliveryTruckCreate from "./DeliveryTruckCreate";
+import ExpensesCreate from "./ExpensesCreate";
 
-function CreateDeliveryTruck() {
+import { Box } from "@mui/material";
+
+function CreateNewExpenses() {
   return (
     <DashboardLayout>
       <DashboardNavbar />
-      <MDBox pt={6} pb={3}>
+      <Box pt={6} pb={3}>
         <Grid container spacing={6}>
           <Grid item xs={12}>
             <Card>
@@ -26,18 +27,18 @@ function CreateDeliveryTruck() {
                 coloredShadow="info"
               >
                 <MDTypography variant="h6" color="white">
-                  Crear Repartidor
+                  Nuevo Gasto
                 </MDTypography>
               </MDBox>
               <MDBox>
-                <DeliveryTruckCreate />
+                <ExpensesCreate />
               </MDBox>
             </Card>
           </Grid>
         </Grid>
-      </MDBox>
+      </Box>
     </DashboardLayout>
   );
 }
 
-export default CreateDeliveryTruck;
+export default CreateNewExpenses;

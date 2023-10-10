@@ -105,15 +105,33 @@ export const menuList = [
     ],
   },
   {
+    name: "Gastos",
+    icon: "assignment_returned_icon",
+    key: "gastos",
+    subRoutes: [
+      {
+        name: "Nuevo gasto",
+        icon: "add_circle_outline_icon",
+        url: "/gastos/nuevo",
+      },
+
+      {
+        name: "Lista gastos",
+        icon: "format_list_bulleted_icon",
+        url: "/gastos/lista",
+      },
+    ],
+  },
+  {
     name: "Distribución",
     icon: "local_shipping_icon",
     key: "distribucion",
     subRoutes: [
-      {
+      /* {
         name: "Distribuidoras",
         icon: "store_icon",
         url: "/distribucion/distribuidoras/lista",
-      },
+      }, */
       {
         name: "Repartidores",
         icon: "local_shipping_icon",

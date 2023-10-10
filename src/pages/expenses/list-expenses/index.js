@@ -5,9 +5,14 @@ import MDBox from "components/MDBox";
 import MDTypography from "components/MDTypography";
 import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
 import DashboardNavbar from "examples/Navbars/DashboardNavbar";
-import DeliveryTruckCreate from "./DeliveryTruckCreate";
+import Loading from "components/DRLoading";
+import { Alert } from "@mui/material";
+import { useGetAllExpensesQuery } from "api/expensesApi";
+import TableListExpenses from "./Table";
 
-function CreateDeliveryTruck() {
+function ListExpenses() {
+  const { data, isLoading, isError } = useGetAllExpensesQuery();
+
   return (
     <DashboardLayout>
       <DashboardNavbar />
@@ -26,11 +31,15 @@ function CreateDeliveryTruck() {
                 coloredShadow="info"
               >
                 <MDTypography variant="h6" color="white">
-                  Crear Repartidor
+                  Lista de gastos
                 </MDTypography>
               </MDBox>
-              <MDBox>
-                <DeliveryTruckCreate />
+              <MDBox pt={3}>
+                {isLoading && <Loading />}
+                {isError && (
+                  <Alert severity="error">Ha ocurrido un error</Alert>
+                )}
+                {data && <TableListExpenses expenses={data.data.expenses} />}
               </MDBox>
             </Card>
           </Grid>
@@ -40,4 +49,4 @@ function CreateDeliveryTruck() {
   );
 }
 
-export default CreateDeliveryTruck;
+export default ListExpenses;

@@ -1,4 +1,3 @@
-/* eslint-disable import/prefer-default-export */
 import { regex } from "validations/regex";
 import * as yup from "yup";
 
@@ -11,7 +10,10 @@ export const creteSupplierSchema = yup.object().shape({
     .matches(lettersNumbersAndSpaces, "Solo letras y números"),
   cuit: yup.string().required("Requerido").matches(onlyNumbers, "Solo números"),
   email: yup.string().email("Formato incorrecto").required("Requerido"),
-  phone: yup.string().required("Requerido").matches(onlyNumbers, "Solo números"),
+  phone: yup
+    .string()
+    .required("Requerido")
+    .matches(onlyNumbers, "Solo números"),
   address: yup
     .string()
     .required("Requerido")

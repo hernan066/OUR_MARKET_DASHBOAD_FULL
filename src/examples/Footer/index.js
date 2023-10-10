@@ -17,6 +17,7 @@ function Footer() {
       justifyContent="center"
       alignItems="center"
       px={1.5}
+      pt={3}
     >
       <MDBox
         display="flex"
@@ -39,7 +40,6 @@ function Footer() {
             &nbsp;{name}&nbsp;
           </MDTypography>
         </Link>
-        for a better web.
       </MDBox>
     </MDBox>
   );

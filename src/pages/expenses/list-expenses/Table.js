@@ -9,11 +9,10 @@ import { DataGrid, GridToolbar } from "@mui/x-data-grid";
 import MDButton from "components/MDButton";
 import colors from "assets/theme-dark/base/colors";
 import { useMaterialUIController } from "context";
-import CheckIcon from "@mui/icons-material/Check";
-import CloseIcon from "@mui/icons-material/Close";
-import MenuProductsLots from "./MenuDeliveryTruck";
+import MenuDistributors from "./MenuDistributors";
+import { formatDateMonthFull } from "utils/dateFormat";
 
-function TableListDeliveryTruck({ deliveryTrucks }) {
+function TableListExpenses({ expenses }) {
   const [controller] = useMaterialUIController();
   const { darkMode } = controller;
 
@@ -33,83 +32,31 @@ function TableListDeliveryTruck({ deliveryTrucks }) {
 
   const columns = [
     {
-      field: "truckId",
-      headerName: "Id",
-      flex: 1.2,
-      cellClassName: "name-column--cell",
-      headerClassName: "super-app-theme--header",
-    },
-
-    {
-      field: "patent",
-      headerName: "Patente",
+      field: "expensesName",
+      headerName: "Gasto",
       flex: 1,
       cellClassName: "name-column--cell",
       headerClassName: "super-app-theme--header",
     },
     {
-      field: "deliveryName",
-      headerName: "Repartidor",
-      flex: 2,
-      headerClassName: "super-app-theme--header",
-    },
-    {
-      field: "email",
-      headerName: "email",
-      flex: 2,
-      headerClassName: "super-app-theme--header",
-    },
-    {
-      field: "phone",
-      headerName: "Telefono",
+      field: "category",
+      headerName: "Categoria Gasto",
       flex: 1,
+      cellClassName: "name-column--cell",
       headerClassName: "super-app-theme--header",
     },
 
     {
-      field: "maximumLoad",
-      headerName: "Carga Max.",
+      field: "amount",
+      headerName: "Monto",
       flex: 1,
       headerClassName: "super-app-theme--header",
     },
-
     {
-      field: "coldChamber",
-      headerName: "Cam. frio",
+      field: "date",
+      headerName: "Fecha",
       flex: 1,
       headerClassName: "super-app-theme--header",
-      renderCell: (params) =>
-        params.row.coldChamber ? (
-          <div
-            style={{
-              height: "30px",
-              width: "30px",
-              borderRadius: "50%",
-              backgroundColor: "green",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              color: "white",
-            }}
-          >
-            <CheckIcon />
-          </div>
-        ) : (
-          <div
-            style={{
-              height: "30px",
-              width: "30px",
-              borderRadius: "50%",
-              backgroundColor: "red",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              color: "white",
-            }}
-          >
-            <CloseIcon />
-          </div>
-        ),
     },
 
     {
@@ -141,9 +88,9 @@ function TableListDeliveryTruck({ deliveryTrucks }) {
           <MDButton
             color="dark"
             variant="gradient"
-            onClick={() => navigate("/distribucion/repartidores/nuevo")}
+            onClick={() => navigate("/gastos/nuevo")}
           >
-            Crear
+            Nuevo gasto
           </MDButton>
         </Stack>
         <Box m="40px 0 0 0" height="75vh" width="1500px">
@@ -151,11 +98,9 @@ function TableListDeliveryTruck({ deliveryTrucks }) {
             checkboxSelection
             disableSelectionOnClick
             components={{ Toolbar: GridToolbar }}
-            rows={deliveryTrucks.map((delivery) => ({
-              ...delivery,
-              deliveryName: `${delivery.user.name} ${delivery.user.lastName}`,
-              email: delivery.user.email,
-              phone: delivery.user.phone,
+            rows={expenses.map((expense) => ({
+              ...expense,
+              date: formatDateMonthFull(expense.date),
             }))}
             columns={columns}
             getRowId={(row) => row._id}
@@ -195,7 +140,7 @@ function TableListDeliveryTruck({ deliveryTrucks }) {
         </Box>
       </Box>
 
-      <MenuProductsLots
+      <MenuDistributors
         open={open}
         handleCloseMenu={handleCloseMenu}
         menuId={menuId}
@@ -204,4 +149,4 @@ function TableListDeliveryTruck({ deliveryTrucks }) {
   );
 }
 
-export default TableListDeliveryTruck;
+export default TableListExpenses;

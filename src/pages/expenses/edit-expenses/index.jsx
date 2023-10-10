@@ -1,17 +1,22 @@
-/* eslint-disable no-unused-vars */
 import Grid from "@mui/material/Grid";
 import Card from "@mui/material/Card";
 import MDBox from "components/MDBox";
 import MDTypography from "components/MDTypography";
 import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
 import DashboardNavbar from "examples/Navbars/DashboardNavbar";
-import DeliveryTruckCreate from "./DeliveryTruckCreate";
+import { Alert, Box } from "@mui/material";
+import ExpensesEdit from "./ExpensesEdit";
+import { useParams } from "react-router-dom";
+import { useGetExpensesQuery } from "api/expensesApi";
+import Loading from "components/DRLoading";
 
-function CreateDeliveryTruck() {
+function EditExpenses() {
+  const { id } = useParams();
+  const { data, isLoading, isError } = useGetExpensesQuery(id);
   return (
     <DashboardLayout>
       <DashboardNavbar />
-      <MDBox pt={6} pb={3}>
+      <Box pt={6} pb={3}>
         <Grid container spacing={6}>
           <Grid item xs={12}>
             <Card>
@@ -26,18 +31,24 @@ function CreateDeliveryTruck() {
                 coloredShadow="info"
               >
                 <MDTypography variant="h6" color="white">
-                  Crear Repartidor
+                  Nuevo Gasto
                 </MDTypography>
               </MDBox>
               <MDBox>
-                <DeliveryTruckCreate />
+                <MDBox>
+                  {isLoading && <Loading />}
+                  {isError && (
+                    <Alert severity="error">Ha ocurrido un error</Alert>
+                  )}
+                  {data && <ExpensesEdit expenses={data.data.expenses} />}
+                </MDBox>
               </MDBox>
             </Card>
           </Grid>
         </Grid>
-      </MDBox>
+      </Box>
     </DashboardLayout>
   );
 }
 
-export default CreateDeliveryTruck;
+export default EditExpenses;

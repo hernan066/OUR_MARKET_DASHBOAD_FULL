@@ -4,6 +4,8 @@ import { useLocation } from "react-router-dom";
 import PropTypes from "prop-types";
 import MDBox from "components/MDBox";
 import { useMaterialUIController, setLayout } from "context";
+import { Box } from "@mui/system";
+import Footer from "examples/Footer";
 
 function DashboardLayout({ children }) {
   const [controller, dispatch] = useMaterialUIController();
@@ -18,6 +20,7 @@ function DashboardLayout({ children }) {
     <MDBox
       sx={({ breakpoints, transitions, functions: { pxToRem } }) => ({
         p: 3,
+        pb: 2,
         position: "relative",
 
         [breakpoints.up("xl")]: {
@@ -29,7 +32,8 @@ function DashboardLayout({ children }) {
         },
       })}
     >
-      {children}
+      <Box sx={{ minHeight: "90vh" }}>{children}</Box>
+      <Footer />
     </MDBox>
   );
 }

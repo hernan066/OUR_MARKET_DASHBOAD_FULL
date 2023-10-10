@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable no-unused-vars */
 import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
 import DashboardNavbar from "examples/Navbars/DashboardNavbar";
@@ -17,25 +18,52 @@ import {
 } from "api/reportApi";
 import { useEffect, useState } from "react";
 import DashboardTotals from "./components/OrdersOverview/DashboardTotals";
-import Footer from "examples/Footer";
 
 function Dashboard1() {
   const [report1, setReport1] = useState(null);
 
-  const { data: dataOrders, isLoading: l1, isError: e1 } = useGetTotalOrdersQuery();
-  const { data: listClients, isLoading: l2, isError: e2 } = useGetClientsQuery();
-  const { data: dataOrdersByDays, isLoading: l3, isError: e3 } = useGetOrdersByDaysQuery(7);
+  const {
+    data: dataOrders,
+    isLoading: l1,
+    isError: e1,
+  } = useGetTotalOrdersQuery();
+  const {
+    data: listClients,
+    isLoading: l2,
+    isError: e2,
+  } = useGetClientsQuery();
+  const {
+    data: dataOrdersByDays,
+    isLoading: l3,
+    isError: e3,
+  } = useGetOrdersByDaysQuery(7);
   const [getTotalSellByRangeDay, { isLoading: l4, isError: e4 }] =
     usePostReportSellByRangeDayMutation();
-  const { data: dataOrdersProducts, isLoading: l5, isError: e5 } = useGetTotalOrdersProductsQuery();
+  const {
+    data: dataOrdersProducts,
+    isLoading: l5,
+    isError: e5,
+  } = useGetTotalOrdersProductsQuery();
   const {
     data: dataOrdersProducts2103,
     isLoading: l6,
     isError: e6,
   } = useGetTotalOrdersProducts2103Query();
-  const { data: dataOrdersByMonth, isLoading: l7, isError: e7 } = useGetTotalOrdersByMonthQuery();
-  const { data: dataClientsDebs, isLoading: l8, isError: e8 } = useGetReportTotalClientDebtQuery();
-  const { data: dataClientsBuy, isLoading: l9, isError: e9 } = useGetReportTotalClientBuyQuery();
+  const {
+    data: dataOrdersByMonth,
+    isLoading: l7,
+    isError: e7,
+  } = useGetTotalOrdersByMonthQuery();
+  const {
+    data: dataClientsDebs,
+    isLoading: l8,
+    isError: e8,
+  } = useGetReportTotalClientDebtQuery();
+  const {
+    data: dataClientsBuy,
+    isLoading: l9,
+    isError: e9,
+  } = useGetReportTotalClientBuyQuery();
   const {
     data: dataCategory,
     isLoading: l10,
@@ -57,7 +85,9 @@ function Dashboard1() {
   return (
     <DashboardLayout>
       <DashboardNavbar />
-      {(l1 || l2 || l3 || l4 || l5 || l6 || l7 || l8 || l9 || l10) && <Loading />}
+      {(l1 || l2 || l3 || l4 || l5 || l6 || l7 || l8 || l9 || l10) && (
+        <Loading />
+      )}
       {(e1 || e2 || e3 || e4 || e5 || e6 || e7 || e8 || e9 || e10) && (
         <Alert severity="error">Ha ocurrido un error</Alert>
       )}
@@ -84,7 +114,6 @@ function Dashboard1() {
               reportTotalClientBuy={dataClientsBuy.data.report}
               dataCategory={dataCategory.data.report}
             />
-            <Footer />
           </Box>
         )}
     </DashboardLayout>

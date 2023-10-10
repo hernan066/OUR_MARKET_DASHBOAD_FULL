@@ -36,8 +36,12 @@ function EditDistributor() {
               </MDBox>
               <MDBox>
                 {isLoading && <Loading />}
-                {isError && <Alert severity="error">Ha ocurrido un error</Alert>}
-                {data && <DistributorEdit distributor={data.data.distributor} />}
+                {isError && (
+                  <Alert severity="error">Ha ocurrido un error</Alert>
+                )}
+                {data && (
+                  <DistributorEdit distributor={data.data.distributor} />
+                )}
               </MDBox>
             </Card>
           </Grid>

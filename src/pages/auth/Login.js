@@ -1,7 +1,11 @@
 import MDBox from "components/MDBox";
-
-import bgImage from "assets/images/bg-sign-in-basic.jpeg";
-import { Alert, Box, TextField, Typography, useMediaQuery } from "@mui/material";
+import {
+  Alert,
+  Box,
+  TextField,
+  Typography,
+  useMediaQuery,
+} from "@mui/material";
 import { useFormik } from "formik";
 import * as yup from "yup";
 import LoadingButton from "@mui/lab/LoadingButton";
@@ -30,7 +34,10 @@ function Login() {
     },
     onSubmit: async (values) => {
       try {
-        const userData = await login({ email: values.email, password: values.password }).unwrap();
+        const userData = await login({
+          email: values.email,
+          password: values.password,
+        }).unwrap();
         dispatch(setCredentials({ ...userData }));
         navigate("/");
       } catch (err) {
@@ -52,14 +59,24 @@ function Login() {
         }}
       >
         <Typography
-          sx={{ textAlign: "center", marginTop: "40px", letterSpacing: "4px", fontSize: "22px" }}
+          sx={{
+            textAlign: "center",
+            marginTop: "40px",
+            letterSpacing: "4px",
+            fontSize: "22px",
+          }}
         >
           INGRESAR
         </Typography>
 
         <MDBox pt={4} pb={3} px={3}>
           {/* form */}
-          <Box component="form" noValidate onSubmit={formik.handleSubmit} sx={{ mt: 1 }}>
+          <Box
+            component="form"
+            noValidate
+            onSubmit={formik.handleSubmit}
+            sx={{ mt: 1 }}
+          >
             <Box sx={{ display: "flex", gap: "8px", alignItems: "center" }}>
               <img
                 src="https://ik.imagekit.io/mrprwema7/OurMarket/user_OkKLt0tst%20(1)__K2sUFDZJ.png?updatedAt=1695681678392"
@@ -116,7 +133,9 @@ function Login() {
               Enviar
             </LoadingButton>
             {isError && (
-              <Alert severity="warning">{error.data?.msg || "Ha ocurrido un error"}</Alert>
+              <Alert severity="warning">
+                {error.data?.msg || "Ha ocurrido un error"}
+              </Alert>
             )}
           </Box>
           {/* form */}
