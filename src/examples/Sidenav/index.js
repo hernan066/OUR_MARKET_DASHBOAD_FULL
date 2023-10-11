@@ -2,7 +2,7 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable react/prop-types */
 import { useEffect } from "react";
-import { useLocation, NavLink, useNavigate } from "react-router-dom";
+import { useLocation, NavLink, useNavigate, Link } from "react-router-dom";
 import PropTypes from "prop-types";
 import Divider from "@mui/material/Divider";
 import Icon from "@mui/material/Icon";
@@ -46,7 +46,7 @@ function Sidenav({ color, brand, brandName, routes, ...rest }) {
 
   const closeSidenav = () => setMiniSidenav(dispatch, true);
 
-  const handlerLogout = async () => {
+  /* const handlerLogout = async () => {
     try {
       const res = await axios.get("/auth/logout2", {
         withCredentials: true,
@@ -57,7 +57,7 @@ function Sidenav({ color, brand, brandName, routes, ...rest }) {
     } catch (error) {
       console.log(error);
     }
-  };
+  }; */
 
   useEffect(() => {
     // A function that sets the mini state of the sidenav.
@@ -136,15 +136,16 @@ function Sidenav({ color, brand, brandName, routes, ...rest }) {
       ))}
 
       <MDBox p={2} mt="auto">
-        <MDButton
-          component="button"
-          variant="gradient"
-          color={sidenavColor}
-          fullWidth
-          onClick={handlerLogout}
-        >
-          Logout
-        </MDButton>
+        <a href={import.meta.env.VITE_APP_TPV} target="_blank" rel="noreferrer">
+          <MDButton
+            component="button"
+            variant="gradient"
+            color={sidenavColor}
+            fullWidth
+          >
+            Ir al TPV
+          </MDButton>
+        </a>
       </MDBox>
     </SidenavRoot>
   );
