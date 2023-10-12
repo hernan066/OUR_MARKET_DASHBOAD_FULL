@@ -10,10 +10,20 @@ import { Alert } from "@mui/material";
 import { useGetClientsQuery } from "api/clientsApi";
 import { useGetDeliveryZonesQuery } from "api/deliveryZoneApi";
 import ClientAddressCreate from "./ClientAddressCreate";
+import { useLoadScript } from "@react-google-maps/api";
 
 function CreateNewClientAddress() {
   const { data: clients, isLoading: l1, isError: e1 } = useGetClientsQuery();
-  const { data: zones, isLoading: l2, isError: e2 } = useGetDeliveryZonesQuery();
+  const {
+    data: zones,
+    isLoading: l2,
+    isError: e2,
+  } = useGetDeliveryZonesQuery();
+
+  const { isLoaded } = useLoadScript({
+    googleMapsApiKey: import.meta.env.VITE_APP_MAP_API_KEY,
+    libraries: ["places"],
+  });
 
   return (
     <DashboardLayout>
@@ -37,8 +47,10 @@ function CreateNewClientAddress() {
                 </MDTypography>
               </MDBox>
               <MDBox>
-                {(l1 || l2) && <Loading />}
-                {(e1 || e2) && <Alert severity="error">Ha ocurrido un error</Alert>}
+                {(l1 || l2 || !isLoaded) && <Loading />}
+                {(e1 || e2) && (
+                  <Alert severity="error">Ha ocurrido un error</Alert>
+                )}
                 {clients && zones && (
                   <ClientAddressCreate
                     clients={clients.data.clients}
