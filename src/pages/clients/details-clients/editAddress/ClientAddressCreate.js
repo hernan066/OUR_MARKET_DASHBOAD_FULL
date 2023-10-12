@@ -16,11 +16,18 @@ import Swal from "sweetalert2";
 
 import { usePostClientAddressMutation } from "api/clientsAddressApi";
 import { provinces } from "data/province";
+import { useDispatch, useSelector } from "react-redux";
+import { useEffect } from "react";
+import { useSetAddressData } from "hooks/useSetAddressData";
+import { clearAddress, setLat, setLng } from "reduxToolkit/mapAutocomplete";
+import MapAutoComplete from "./mapAutoComplete";
 
 function ClientAddressCreate({ client, zones }) {
   const navigate = useNavigate();
-  const [createClientAddress, { isLoading, isError }] = usePostClientAddressMutation();
-  console.log(client);
+  const dispatch = useDispatch();
+  const [createClientAddress, { isLoading, isError }] =
+    usePostClientAddressMutation();
+  const { lat, lng } = useSelector((store) => store.mapAutocomplete);
 
   const formik = useFormik({
     initialValues: {
@@ -34,12 +41,16 @@ function ClientAddressCreate({ client, zones }) {
       deliveryZone: "",
       type: "",
       phone: "",
+      lat: 0,
+      lng: 0,
     },
     onSubmit: async (values) => {
       const newClientAddress = {
         ...values,
         user: client.user._id,
         client: client._id,
+        lat,
+        lng,
       };
       const res = await createClientAddress(newClientAddress).unwrap();
       if (res) {
@@ -50,11 +61,24 @@ function ClientAddressCreate({ client, zones }) {
           showConfirmButton: false,
           timer: 2500,
         });
-        // navigate("/clientes/direcciones/lista");
       }
     },
     validationSchema: createClientAddressSchema,
   });
+
+  useEffect(() => {
+    dispatch(clearAddress());
+    dispatch(setLat(0));
+    dispatch(setLng(0));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  useSetAddressData(
+    formik.values.address,
+    formik.values.city,
+    formik.values.province,
+    formik.values.zip
+  );
 
   return (
     <MDBox pt={2} pb={3}>
@@ -128,36 +152,6 @@ function ClientAddressCreate({ client, zones }) {
               helperText={formik.errors.city}
               onChange={formik.handleChange}
             />
-
-            <LoadingButton
-              type="submit"
-              variant="contained"
-              loading={isLoading}
-              sx={{
-                mt: 3,
-                mb: 2,
-                mr: 2,
-                backgroundColor: `${colors.info.main}`,
-                color: "white !important",
-              }}
-            >
-              Crear
-            </LoadingButton>
-            <MDButton
-              variant="outlined"
-              color="info"
-              onClick={() => navigate(-1)}
-              sx={{
-                mt: 3,
-                mb: 2,
-              }}
-            >
-              Cancelar
-            </MDButton>
-            {isError && <Alert severity="error">Error — Cliente no creado</Alert>}
-          </Box>
-
-          <Box sx={{ width: "50%" }}>
             <TextField
               margin="normal"
               fullWidth
@@ -208,12 +202,60 @@ function ClientAddressCreate({ client, zones }) {
             <TextField
               margin="normal"
               fullWidth
-              name="phone"
-              label="Telefono del negocio (opcional)"
-              error={!!formik.errors.phone}
-              helperText={formik.errors.phone}
+              required
+              type="number"
+              name="lat"
+              label="Latitud"
+              value={lat}
+              error={!!formik.errors.lat}
+              helperText={formik.errors.lat}
               onChange={formik.handleChange}
             />
+            <TextField
+              margin="normal"
+              fullWidth
+              required
+              type="number"
+              name="lng"
+              label="Longitud"
+              value={lng}
+              error={!!formik.errors.lng}
+              helperText={formik.errors.lng}
+              onChange={formik.handleChange}
+            />
+
+            <LoadingButton
+              type="submit"
+              variant="contained"
+              loading={isLoading}
+              sx={{
+                mt: 3,
+                mb: 2,
+                mr: 2,
+                backgroundColor: `${colors.info.main}`,
+                color: "white !important",
+              }}
+            >
+              Crear
+            </LoadingButton>
+            <MDButton
+              variant="outlined"
+              color="info"
+              onClick={() => navigate(-1)}
+              sx={{
+                mt: 3,
+                mb: 2,
+              }}
+            >
+              Cancelar
+            </MDButton>
+            {isError && (
+              <Alert severity="error">Error — Cliente no creado</Alert>
+            )}
+          </Box>
+
+          <Box sx={{ width: "50%" }}>
+            <MapAutoComplete />
           </Box>
         </Box>
       </Box>
